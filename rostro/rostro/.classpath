@@ -10,5 +10,8 @@
 	<classpathentry kind="lib" path="C:/Users/lee/Desktop/neuroph-2.9/neuroph-imgrec-2.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/lee/Desktop/neuroph-2.9/neuroph-ocr-2.9.jar"/>
 	<classpathentry kind="lib" path="C:/Users/lee/Desktop/neuroph-2.9/neuroph-samples-2.9.jar"/>
+	<classpathentry kind="lib" path="C:/JavaLibraries/neuroph-2.8/neuroph-core-2.8.jar"/>
+	<classpathentry kind="lib" path="C:/JavaLibraries/neuroph-2.8/neuroph-imgrec-2.8.jar"/>
+	<classpathentry kind="lib" path="C:/JavaLibraries/neuroph-2.8/neuroph-ocr-2.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

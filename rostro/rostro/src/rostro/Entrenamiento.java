@@ -1,7 +1,6 @@
 package rostro;
 
 import java.util.Arrays;
-import org.neuroph.core.NeuralNetwork;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
