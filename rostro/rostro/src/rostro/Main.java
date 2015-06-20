@@ -143,13 +143,13 @@ class DetectFaceDemo {
 	}
 }
 
-public class Main {
-	public static void main(String[] args) {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		try {
-			new DetectFaceDemo().run();
-		} catch (Throwable ex) {
-			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
-}
+//public class Main {
+//	public static void main(String[] args) {
+//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+//		try {
+//			new DetectFaceDemo().run();
+//		} catch (Throwable ex) {
+//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//		}
+//	}
+//}
