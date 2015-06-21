@@ -1,4 +1,4 @@
-package rostro;
+package OpencvNeuroph;
 
 public class variables {
 	private static String nombre = "";

@@ -1,7 +1,8 @@
-package rostro;
+package OpencvNeuroph;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
  *
  * @author root
  */
+@SuppressWarnings("serial")
 public class Ventana extends JFrame {
 	JPanel panel;
 	JLabel etiqueta;

@@ -1,4 +1,4 @@
-package rostro;
+package OpencvNeuroph;
 
 import java.util.Arrays;
 import org.neuroph.nnet.MultiLayerPerceptron;
@@ -11,10 +11,7 @@ import org.neuroph.util.TransferFunctionType;
  */
 public class Entrenamiento {
 
-	/**
-	 * @param args
-	 *            the command line arguments
-	 */
+
 	public void convert(String name, double[][] bits){
 		
 		// create training set (logical XOR function)
