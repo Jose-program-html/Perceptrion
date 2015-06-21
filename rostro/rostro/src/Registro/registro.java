@@ -98,7 +98,7 @@ public class registro extends JFrame {
 		contentPane.add(_usuario);
 		_usuario.setColumns(10);
 		
-		JLabel _foto = new JLabel("New label");
+		final JLabel _foto = new JLabel("New label");
 		_foto.setBorder(new LineBorder(new Color(0, 128, 128), 2, true));
 		_foto.setBounds(207, 21, 173, 150);
 		contentPane.add(_foto);
