@@ -68,7 +68,7 @@ public class login extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				con= new conexion();
-				con.busqueda("usuario", "usuario", "usuario,contrasena", _usuario.getText().trim());
+				con.busqueda("usuario", "usuario", "usuario,contrasena,id", _usuario.getText().trim());
 				String resultado=con.registro_busqueda;
 				if(resultado.equals(""))
 				{
@@ -80,8 +80,9 @@ public class login extends JFrame {
 					if(columnas[0].equals(_usuario.getText().trim())&&columnas[1].equals(_password.getText().trim()))
 					{
 						//ABRIR VENTANA CAMARA
-						Claseimagen n = new Claseimagen();
-						JOptionPane.showMessageDialog(null, resultado);
+						Claseimagen n = new Claseimagen(columnas[2]);
+						n.main(null);
+						//JOptionPane.showMessageDialog(null, columnas[2]);
 					}
 					else
 					{

@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 
 
 
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -29,6 +30,8 @@ import org.opencv.highgui.VideoCapture;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
+import Bd.conexion;
+
 class DetectFaceDemo {
 	CascadeClassifier faceDetector = new CascadeClassifier(
 			"C:\\opencv\\sources\\data\\lbpcascades\\lbpcascade_frontalface.xml");
@@ -37,7 +40,10 @@ class DetectFaceDemo {
 	Mat imagen = new Mat();
 	public int cont = 0;
 	public double[][] entrenamientos;
-
+	public double[][] entrenamientos1;
+	public  String entrenamientosBW="";
+	public  String entrenamientosGRAY="";
+	
 	public void run() {
 		System.out.println("Deteccion de rostros con OpenCV y Webcam en java");
 		Ventana ventana = new Ventana();
@@ -49,6 +55,7 @@ class DetectFaceDemo {
 							"A continuacion se le tomaran 1 fotos, en intervalos de segundo.\n"
 									+ "Procure tener buena iluminacion y por cada toma mover su rostro en diversos angulos para una mayor presicion");
 			entrenamientos = new double[1][imagen.width() * imagen.height()];
+			entrenamientos1 = new double[1][imagen.width() * imagen.height()];
 			while (cont != 1) {
 				try {
 					Thread.sleep(5);
@@ -116,6 +123,8 @@ class DetectFaceDemo {
 			if (cont == 0) {
 				entrenamientos = new double [1][dimg.getHeight()
 						* dimg.getWidth()];
+				entrenamientos1 = new double [1][dimg.getHeight()
+				        						* dimg.getWidth()];
 			}
 			double[] pixelDataGrayBn = new double[dimg.getHeight()
 					* dimg.getWidth()];
@@ -139,10 +148,17 @@ class DetectFaceDemo {
 				}
 			}
 			for (int e = 0; e < pixelDataGrayBn.length; e++) {
+				entrenamientos1[cont][e] = pixelDataGrayBn[e];
+				entrenamientosGRAY+=entrenamientos1[cont][e]+" ";
+//				System.out.println(entrenamientos1[cont][e]);
 				
 				entrenamientos[cont][e] = pixelDatabinario[e];
-				System.out.println(entrenamientos[cont][e]);
+				entrenamientosBW+=entrenamientos[cont][e]+" ";
+//				System.out.println(entrenamientos[cont][e]);
 			}
+			
+			variables.setBw(entrenamientosBW);
+			variables.setGray(entrenamientosGRAY);
 			cont++;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -160,23 +176,38 @@ class DetectFaceDemo {
 	}
 }
 
-//public class Claseimagen {
-//	public Claseimagen() {
-//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-//		try {
-//			new DetectFaceDemo().run();
-//		} catch (Throwable ex) {
-//			Logger.getLogger(Claseimagen.class.getName()).log(Level.SEVERE, null, ex);
-//			}
-//		}
-//	}
-
-
-public class Claseimagen {
-	public static void main(String[] args) {
+/*public class Claseimagen {
+	public Claseimagen() {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		try {
 			new DetectFaceDemo().run();
+		} catch (Throwable ex) {
+			Logger.getLogger(Claseimagen.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}*/
+
+
+public class Claseimagen {
+	int _id=0;
+	
+	public Claseimagen(String id) {
+		_id=Integer.parseInt(id);
+		variables.set_id(_id);
+		
+	}
+	public static void main(String[] args) {
+		conexion con;
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		try {
+			new DetectFaceDemo().run();
+			System.out.println(variables.get_id());
+			System.out.println(variables.getBw());
+			System.out.println(variables.getGray());
+			con= new conexion();
+			con.agregar("entrada", "gris,bn,idUsuario", variables.getGray()+","+
+					variables.getBw()+","+variables.get_id());
+			
 		} catch (Throwable ex) {
 			Logger.getLogger(Claseimagen.class.getName()).log(Level.SEVERE, null, ex);
 		}
