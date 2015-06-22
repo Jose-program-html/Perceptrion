@@ -102,7 +102,7 @@ class DetectFaceDemo {
 
 	private void guardar(Mat imagen, int num, String nombre) {
 		Mat tamaño = new Mat(imagen.width(), imagen.height(), imagen.type());
-		Size sz=new Size(10,10);
+		Size sz=new Size(100,100);
 		Imgproc.resize(imagen, tamaño, sz);
 		Mat gris = new Mat(tamaño.width(), tamaño.height(), imagen.type());
 		Imgproc.cvtColor(tamaño, gris, Imgproc.COLOR_RGB2GRAY);
