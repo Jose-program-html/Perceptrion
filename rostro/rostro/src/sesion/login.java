@@ -18,11 +18,15 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
 import Bd.conexion;
+import OpencvNeuroph.Claseimagen;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JPasswordField;
+
+import org.neuroph.contrib.samples.stockmarket.Main;
+import org.opencv.core.Core;
 
 public class login extends JFrame {
 
@@ -76,7 +80,7 @@ public class login extends JFrame {
 					if(columnas[0].equals(_usuario.getText().trim())&&columnas[1].equals(_password.getText().trim()))
 					{
 						//ABRIR VENTANA CAMARA
-						//Ventana v= new Ventana();
+						Claseimagen n = new Claseimagen();
 						JOptionPane.showMessageDialog(null, resultado);
 					}
 					else

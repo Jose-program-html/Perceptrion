@@ -8,8 +8,11 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+
+
 
 
 
@@ -20,6 +23,7 @@ import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 import org.opencv.imgproc.Imgproc;
@@ -42,10 +46,10 @@ class DetectFaceDemo {
 			JOptionPane
 					.showMessageDialog(
 							null,
-							"A continuacion se le tomaran 15 fotos, en intervalos de segundo.\n"
+							"A continuacion se le tomaran 1 fotos, en intervalos de segundo.\n"
 									+ "Procure tener buena iluminacion y por cada toma mover su rostro en diversos angulos para una mayor presicion");
-			entrenamientos = new double[15][imagen.width() * imagen.height()];
-			while (cont != 15) {
+			entrenamientos = new double[1][imagen.width() * imagen.height()];
+			while (cont != 1) {
 				try {
 					Thread.sleep(5);
 					cap.read(imagen);
@@ -67,8 +71,8 @@ class DetectFaceDemo {
 							Level.SEVERE, null, ex);
 				}
 			}
-			Entrenamiento i = new Entrenamiento();
-			i.convert(variables.getNombre(), entrenamientos);
+//			Entrenamiento i = new Entrenamiento();
+//			i.convert(variables.getNombre(), entrenamientos);
 		}
 	}
 
@@ -90,8 +94,11 @@ class DetectFaceDemo {
 	}
 
 	private void guardar(Mat imagen, int num, String nombre) {
-		Mat gris = new Mat(imagen.width(), imagen.height(), imagen.type());
-		Imgproc.cvtColor(imagen, gris, Imgproc.COLOR_RGB2GRAY);
+		Mat tamaño = new Mat(imagen.width(), imagen.height(), imagen.type());
+		Size sz=new Size(10,10);
+		Imgproc.resize(imagen, tamaño, sz);
+		Mat gris = new Mat(tamaño.width(), tamaño.height(), imagen.type());
+		Imgproc.cvtColor(tamaño, gris, Imgproc.COLOR_RGB2GRAY);
 		MatOfByte matOfByte = new MatOfByte();
 		Highgui.imencode(".jpg", gris, matOfByte);
 		Highgui.imwrite(nombre + num + ".jpg", gris);
@@ -101,32 +108,40 @@ class DetectFaceDemo {
 		try {
 			InputStream in = new ByteArrayInputStream(byteArray);
 			bufImage = ImageIO.read(in);
-			Image tmp = bufImage.getScaledInstance(160, 120, Image.SCALE_SMOOTH);
-		    BufferedImage dimg = new BufferedImage(160, 120, BufferedImage.TYPE_INT_ARGB);
+			Image tmp = bufImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		    BufferedImage dimg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2d = dimg.createGraphics();
 		    g2d.drawImage(tmp, 0, 0, null);
 		    g2d.dispose();
 			if (cont == 0) {
-				entrenamientos = new double [15][dimg.getHeight()
+				entrenamientos = new double [1][dimg.getHeight()
 						* dimg.getWidth()];
 			}
-			double[] pixelData = new double[dimg.getHeight()
+			double[] pixelDataGrayBn = new double[dimg.getHeight()
 					* dimg.getWidth()];
+			double[] pixelDatabinario = new double[dimg.getHeight()
+			            					* dimg.getWidth()];
 			int[] rgb;
 			int counter = 0;
 			for (int i = 0; i < dimg.getHeight(); i++) {
 				for (int j = 0; j < dimg.getWidth(); j++) {
 					rgb = getPixelData(dimg, j, i);
 					if (rgb[0] == rgb[1] && rgb[1] == rgb[2]) {
-						pixelData[counter] = (double) Math.abs(rgb[0] / 16);
+						pixelDataGrayBn[counter] = (double) Math.abs(rgb[0] / 16);
+						if(rgb[0]>127){
+							pixelDatabinario[counter]=1;
+						}else{
+							pixelDatabinario[counter]=0;
+						}
+						
 						counter++;
-					} else {
-
 					}
 				}
 			}
-			for (int e = 0; e < pixelData.length; e++) {
-				entrenamientos[cont][e] = pixelData[e];
+			for (int e = 0; e < pixelDataGrayBn.length; e++) {
+				
+				entrenamientos[cont][e] = pixelDatabinario[e];
+				System.out.println(entrenamientos[cont][e]);
 			}
 			cont++;
 		} catch (Exception e) {
@@ -145,13 +160,25 @@ class DetectFaceDemo {
 	}
 }
 
-//public class Main {
-//	public static void main(String[] args) {
+//public class Claseimagen {
+//	public Claseimagen() {
 //		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 //		try {
 //			new DetectFaceDemo().run();
 //		} catch (Throwable ex) {
-//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//			Logger.getLogger(Claseimagen.class.getName()).log(Level.SEVERE, null, ex);
+//			}
 //		}
 //	}
-//}
+
+
+public class Claseimagen {
+	public static void main(String[] args) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		try {
+			new DetectFaceDemo().run();
+		} catch (Throwable ex) {
+			Logger.getLogger(Claseimagen.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+}

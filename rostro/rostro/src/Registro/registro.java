@@ -76,6 +76,7 @@ public class registro extends JFrame {
 					else
 					{
 						con.agregar("usuario", "usuario,contrasena,entrenamiento", _usuario.getText().trim()+","+_password.getText().trim()+", 1 1 1 1 1 1 1");
+						
 					}
 					
 				} catch (Exception e) {

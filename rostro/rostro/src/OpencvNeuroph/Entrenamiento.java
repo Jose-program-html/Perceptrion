@@ -5,10 +5,7 @@ import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.util.TransferFunctionType;
-/**
- *
- * @author Machan
- */
+
 public class Entrenamiento {
 
 
@@ -16,13 +13,13 @@ public class Entrenamiento {
 		
 		// create training set (logical XOR function)
 		double[] entrenar = null;
-		DataSet trainingSet = new DataSet(19200, 1);
-		for(int i=0;i<15;i++){
+		DataSet trainingSet = new DataSet(10000, 1);
+		for(int i=0;i<1;i++){
 			entrenar=bits[i];
 			trainingSet.addRow(new DataSetRow(entrenar, new double[]{1}));
 		}
 		// create multi layer perceptron
-		MultiLayerPerceptron myMlPerceptron  = new MultiLayerPerceptron(TransferFunctionType.TANH, 19200, 19202, 1);
+		MultiLayerPerceptron myMlPerceptron  = new MultiLayerPerceptron(TransferFunctionType.TANH, 10000, 5, 1);
 		// learn the training set
 		myMlPerceptron.learn(trainingSet);
 
