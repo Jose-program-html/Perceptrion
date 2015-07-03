@@ -22,6 +22,8 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 
+import org.opencv.core.Core;
+
 import Bd.conexion;
 import Clases.Imagen;
 
@@ -34,6 +36,9 @@ public class registro extends JFrame {
 	private conexion con;
 	private JButton btnImagen_1;
 	private JTextField _password;
+	private JTextField _nombreusuario;
+	static JPanel panel;
+	static JLabel etiqueta;
 
 	/**
 	 * Launch the application.
@@ -42,6 +47,7 @@ public class registro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 					registro frame = new registro();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
@@ -57,12 +63,18 @@ public class registro extends JFrame {
 	 */
 	public registro() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 421, 265);
+		setBounds(100, 100, 300, 475);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new TitledBorder(new LineBorder(new Color(0, 128, 128), 4, true), "INICIAR SESI\u00D3N", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 128, 128)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.setBounds(20, 29, 243, 175);
+		etiqueta = new JLabel();
+		panel.add(etiqueta);
+		getContentPane().add(panel);
 		
 		JButton btnImagen = new JButton("Guardar");
 		btnImagen.addActionListener(new ActionListener() {
@@ -76,7 +88,6 @@ public class registro extends JFrame {
 					else
 					{
 						con.agregar("usuario", "usuario,contrasena,entrenamiento", _usuario.getText().trim()+","+_password.getText().trim()+", 1 1 1 1 1 1 1");
-						
 					}
 					
 				} catch (Exception e) {
@@ -85,7 +96,7 @@ public class registro extends JFrame {
 				
 			}
 		});
-		btnImagen.setBounds(61, 146, 91, 60);
+		btnImagen.setBounds(40, 396, 204, 29);
 		btnImagen.setForeground(Color.WHITE);
 		btnImagen.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnImagen.setBackground(new Color(0, 128, 128));
@@ -95,28 +106,20 @@ public class registro extends JFrame {
 		_usuario.setBorder(new TitledBorder(new LineBorder(new Color(0, 128, 128), 2, true), "USUARIO", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 128, 128)));
 		_usuario.setHorizontalAlignment(SwingConstants.CENTER);
 		_usuario.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		_usuario.setBounds(24, 40, 173, 36);
+		_usuario.setBounds(40, 302, 204, 36);
 		contentPane.add(_usuario);
 		_usuario.setColumns(10);
 		
-		final JLabel _foto = new JLabel("New label");
-		_foto.setBorder(new LineBorder(new Color(0, 128, 128), 2, true));
-		_foto.setBounds(207, 21, 173, 150);
-		contentPane.add(_foto);
-		
-		btnImagen_1 = new JButton("Imagen");
+		btnImagen_1 = new JButton("Foto");
 		btnImagen_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Imagen ObjProcesamiento= new Imagen();
-				ImageIcon imagen = new ImageIcon(ObjProcesamiento.abrirImagen());
-	            Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(_foto.getWidth(), _foto.getHeight(), Image.SCALE_DEFAULT));
-	            _foto.setIcon(icono);
+				new Thread(new Claseimagen(panel, etiqueta)).start();
 			}
 		});
 		btnImagen_1.setForeground(Color.WHITE);
 		btnImagen_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnImagen_1.setBackground(new Color(0, 128, 128));
-		btnImagen_1.setBounds(255, 177, 91, 29);
+		btnImagen_1.setBounds(149, 215, 95, 29);
 		contentPane.add(btnImagen_1);
 		
 		_password = new JTextField();
@@ -124,7 +127,24 @@ public class registro extends JFrame {
 		_password.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		_password.setColumns(10);
 		_password.setBorder(new TitledBorder(new LineBorder(new Color(0, 128, 128), 2, true), "CONTRASE\u00D1A", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 128, 128)));
-		_password.setBounds(24, 86, 173, 36);
+		_password.setBounds(40, 349, 204, 36);
 		contentPane.add(_password);
+		
+		_nombreusuario = new JTextField();
+		_nombreusuario.setHorizontalAlignment(SwingConstants.CENTER);
+		_nombreusuario.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		_nombreusuario.setColumns(10);
+		_nombreusuario.setBorder(new TitledBorder(new LineBorder(new Color(0, 128, 128), 2, true), "NOMBRE DE USUARIO", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 128, 128)));
+		_nombreusuario.setBounds(40, 255, 204, 36);
+		contentPane.add(_nombreusuario);
+		contentPane.add(panel);
+	}
+	public static void setImage(Image imagen) {
+		panel.removeAll();
+		ImageIcon icon = new ImageIcon(imagen.getScaledInstance(
+				etiqueta.getWidth(), etiqueta.getHeight(), Image.SCALE_SMOOTH));
+		etiqueta.setIcon(icon);
+		panel.add(etiqueta);
+		panel.updateUI();
 	}
 }

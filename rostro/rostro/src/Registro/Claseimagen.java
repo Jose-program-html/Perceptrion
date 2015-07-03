@@ -1,4 +1,4 @@
-package OpencvNeuroph;
+package Registro;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -10,12 +10,10 @@ import java.util.logging.Logger;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-
-
-
-
+import javax.swing.JPanel;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -31,8 +29,7 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
 import Bd.conexion;
-
-class DetectFaceDemo {
+public class Claseimagen implements Runnable{
 	CascadeClassifier faceDetector = new CascadeClassifier(
 			"C:\\opencv\\sources\\data\\lbpcascades\\lbpcascade_frontalface.xml");
 	MatOfRect faceDetections = new MatOfRect();
@@ -43,17 +40,16 @@ class DetectFaceDemo {
 	public double[][] entrenamientos1;
 	public  String entrenamientosBW="";
 	public  String entrenamientosGRAY="";
+	private JPanel panel;
+	private JLabel etiqueta;
 	
+	public Claseimagen(JPanel panel, JLabel etiqueta) {
+		this.panel = panel;
+		this.etiqueta = etiqueta;
+	}
 	public void run() {
 		System.out.println("Deteccion de rostros con OpenCV y Webcam en java");
-		Ventana ventana = new Ventana();
 		if (cap.isOpened()) {
-			String nombre = JOptionPane.showInputDialog("Ingrese su nombre");
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"A continuacion se le tomaran 1 fotos, en intervalos de segundo.\n"
-									+ "Procure tener buena iluminacion y por cada toma mover su rostro en diversos angulos para una mayor presicion");
 			entrenamientos = new double[1][imagen.width() * imagen.height()];
 			entrenamientos1 = new double[1][imagen.width() * imagen.height()];
 			while (cont != 1) {
@@ -63,7 +59,7 @@ class DetectFaceDemo {
 					if (!imagen.empty()) {
 						faceDetector.detectMultiScale(imagen, faceDetections);
 						if (faceDetections.toArray().length != 0) {
-							guardar(imagen, cont, nombre);
+							//guardar(imagen, cont, nombre);
 						}
 						for (Rect rect : faceDetections.toArray()) {
 							Core.rectangle(imagen, new Point(rect.x, rect.y),
@@ -71,15 +67,12 @@ class DetectFaceDemo {
 											+ rect.height), new Scalar(0, 255,
 											0));
 						}
-						ventana.setImage(convertir(imagen));
+						registro.setImage(convertir(imagen));
 					}
 				} catch (Exception ex) {
-					Logger.getLogger(DetectFaceDemo.class.getName()).log(
-							Level.SEVERE, null, ex);
+					System.out.println(ex);
 				}
 			}
-			//Entrenamiento i = new Entrenamiento();
-			//i.convert(variables.getNombre(), entrenamientos);
 			
 		}
 	}
@@ -189,42 +182,6 @@ class DetectFaceDemo {
 	}
 }
 
-/*public class Claseimagen {
-	public Claseimagen() {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		try {
-			new DetectFaceDemo().run();
-		} catch (Throwable ex) {
-			Logger.getLogger(Claseimagen.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-	}*/
-
-
-public class Claseimagen {
-	int _id=0;
+class DetectFaceDemo {
 	
-	public Claseimagen(String id) {
-		_id=Integer.parseInt(id);
-		variables.set_id(_id);
-		
-	}
-	public static void main(String[] args) {
-		conexion con;
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		try {
-			new DetectFaceDemo().run();
-			System.out.println(variables.get_id());
-			System.out.println(variables.getBw());
-			System.out.println(variables.getGray());
-			con= new conexion();
-			con.agregar("entrada", "gris,bn,idUsuario", variables.getGray()+","+
-					variables.getBw()+","+variables.get_id());
-			Entrenamiento entrenamiento = new Entrenamiento(variables.get_id());
-			Entrenamiento2 entrenamiento2 = new Entrenamiento2(variables.get_id());
-			
-		} catch (Throwable ex) {
-			Logger.getLogger(Claseimagen.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
 }

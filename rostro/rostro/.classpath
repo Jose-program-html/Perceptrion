@@ -13,5 +13,10 @@
 	<classpathentry kind="lib" path="C:/JavaLibraries/mysql-connector-java-5.1.23-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCv"/>
+	<classpathentry kind="lib" path="C:/Users/josey_000/Downloads/slf4j-1.7.12 (1)/slf4j-1.7.12/slf4j-api-1.7.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/josey_000/Downloads/slf4j-1.7.12 (1)/slf4j-1.7.12/slf4j-jdk14-1.7.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/josey_000/Downloads/slf4j-1.7.12 (1)/slf4j-1.7.12/slf4j-log4j12-1.7.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/josey_000/Downloads/slf4j-1.7.12 (1)/slf4j-1.7.12/slf4j-nop-1.7.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/josey_000/Downloads/slf4j-1.7.12 (1)/slf4j-1.7.12/slf4j-simple-1.7.12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
