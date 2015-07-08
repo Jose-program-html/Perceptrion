@@ -212,6 +212,23 @@ public class conexion {
 			// + e);
 		}
 	}
+	
+	public void conteo(String tabla, String campos) {
+		try {
+			registro_busqueda = "";
+			PreparedStatement pstm = (PreparedStatement) conectar()
+					.prepareStatement(
+							"SELECT " + campos + " FROM " + tabla + ";");
+			ResultSet res = pstm.executeQuery();
+			while (res.next()) {
+				registro_busqueda += res.getString(campos);
+			}
+			res.close();
+		} catch (Exception e) {
+			// System.out.println("Problemas al obtener la informacion en la Busqueda:\n"
+			// + e);
+		}
+	}
 
 	// Realiza varias busquedas en la BD con la informacion proporcionada y
 	// clausula.

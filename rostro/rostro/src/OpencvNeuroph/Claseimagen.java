@@ -7,16 +7,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-
-
-
-
-
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -86,7 +79,7 @@ class DetectFaceDemo {
 
 	private Image convertir(Mat imagen) {
 		Mat gris = new Mat(imagen.width(), imagen.height(), imagen.type());
-		//Imgproc.cvtColor(imagen, gris, Imgproc.COLOR_RGB2GRAY);
+		Imgproc.cvtColor(imagen, gris, Imgproc.COLOR_RGB2GRAY);
 		MatOfByte matOfByte = new MatOfByte();
 		Highgui.imencode(".jpg", gris, matOfByte);
 		byte[] byteArray = matOfByte.toArray();
@@ -148,7 +141,7 @@ class DetectFaceDemo {
 					}
 				}
 			}
-			int count =0;
+			/*int count =0;
 			for (int i = 0; i < dimg.getHeight(); i++) {
 				for (int j = 0; j < dimg.getWidth(); j++) {
 					if(pixelDatabinario[count]==0.0){
@@ -159,7 +152,7 @@ class DetectFaceDemo {
 					count++;
 				}
 				System.out.println();
-			}
+			}*/
 			for (int e = 0; e < pixelDataGrayBn.length; e++) {
 				entrenamientos1[cont][e] = pixelDataGrayBn[e];
 				entrenamientosGRAY+=entrenamientos1[cont][e]+" ";
