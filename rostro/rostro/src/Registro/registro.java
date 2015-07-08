@@ -172,6 +172,8 @@ public class registro extends JFrame {
 							String bw = variables.getBw()[i];
 							con.agregar("entrada", "gris,bn,idUsuario", gray
 									+ "," + bw + "," + variables.getIdusuario());
+							Actualizar update = new Actualizar();
+							update.actualizarid();
 						}
 					}
 

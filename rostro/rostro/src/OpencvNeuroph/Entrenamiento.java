@@ -23,7 +23,6 @@ public class Entrenamiento {
 		con.busquedaClausula("entrada", "idUsuario", "bn", String.valueOf(id));
 		binario=con.registro_busqueda.split(" ");
 		convert(binario);
-		
 	}
 
 	public void convert(String [] binario) {
