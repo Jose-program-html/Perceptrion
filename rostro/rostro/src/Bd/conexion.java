@@ -1,6 +1,7 @@
 package Bd;
 
 import java.sql.*;
+
 import Configuracion.variablesGenerales;
 
 
@@ -148,6 +149,7 @@ public class conexion {
 		return r;
 	}
 
+	@SuppressWarnings("unused")
 	private ResultSet prepararEstados(String query) {
 		ResultSet res = null;
 		try {

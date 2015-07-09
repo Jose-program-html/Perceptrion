@@ -6,7 +6,7 @@ public class Entrenamiento {
 	static String[] binario;
 	static double[][] Entrenarbinarios;
 	static double[] Entrenarsalidas;
-	public int ids;
+	public static int ids;
 
 	conexion con;
 
@@ -14,7 +14,7 @@ public class Entrenamiento {
 		conexion con = new conexion();
 		con.conteo("entrada", "COUNT(*)");
 		int id = Integer.parseInt(con.registro_busqueda);
-		Entrenarbinarios = new double[20][10000];
+		Entrenarbinarios = new double[id][10000];
 		ids = id;
 		for (int j = 0; j < ids; j++) {
 			con.busquedaClausula("entrada", "id", "bn", String.valueOf(j + 1));
@@ -30,8 +30,8 @@ public class Entrenamiento {
 	public static int numEpocas = 10; // número de ciclos de entrenamiento
 	public static int numEntradas = 10001; // número de entradas - esto incluye
 											// la entrada bias (umbral)
-	public static int numUOcultas = 100; // número de unidades ocultas
-	public static int numPatrones = 3; // número de patrones a entranar
+	public static int numUOcultas = 10; // número de unidades ocultas
+	public static int numPatrones = ids*5; // número de patrones a entranar
 	public static double TA_EO = 0.7; // tasa de aprendizaje
 	public static double TA_SO = 0.07; // tasa de aprendizaje
 
@@ -54,6 +54,9 @@ public class Entrenamiento {
 	public static double[] pesosOS = new double[numUOcultas];
 
 	public void principal() {
+		numPatrones = ids;
+		entrenaEntradas = new double[numPatrones][numEntradas];
+		entrenaSalidas = new double[numPatrones];
 		// inicializa los pesos
 		inicioPesos();
 		// carga los datos
@@ -147,7 +150,7 @@ public class Entrenamiento {
 	public static void inicioDatos() {
 		System.out.println("initializando datos");
 
-		for (int j = 0; j < 3; j++) {
+		for (int j = 0; j < numPatrones; j++) {
 			for (int i = 0; i < 10001; i++) {
 				if (i == 10000) {
 					entrenaEntradas[j][i] = 1;
@@ -156,9 +159,14 @@ public class Entrenamiento {
 				}
 			}
 		}
-		entrenaSalidas[0] = 01;
-		entrenaSalidas[1] = 10;
-		entrenaSalidas[2] = 11;
+		conexion con = new conexion();
+		for(int i = 0; i< numPatrones;i++){
+			con.busquedaClausula("entrada", "id", "idusuario", String.valueOf(i + 1));
+			String aux=con.registro_busqueda.substring(0, con.registro_busqueda.length()-1);
+			System.out.println(aux);
+			int salida = Integer.parseInt(aux);
+			entrenaSalidas[i] = salida;
+		}
 		/*
 		 * entrenaEntradas[0][0] = 1; entrenaEntradas[0][1] = -1;
 		 * entrenaEntradas[0][2] = 1;//bias (umbral) entrenaSalidas[0] = 1;
@@ -188,6 +196,7 @@ public class Entrenamiento {
 	}
 
 	public static void muestraResultados() {
+		conexion con = new conexion();
 		for (int i = 0; i < numPatrones; i++) {
 			numPat = i;
 			calcRed();
@@ -195,6 +204,7 @@ public class Entrenamiento {
 					.println("patrón = " + (numPat + 1) + " actual = "
 							+ entrenaSalidas[numPat] + " modelo neural = "
 							+ predSalida);
+			con.actualizar("entrada", "entrenamientobinario", predSalida+"", "id="+(i+1));
 		}
 	}
 

@@ -65,7 +65,7 @@ public class imagenes {
 					}
 				}
 			}
-			int count = 0;
+/*			int count = 0;
 			for (int i = 0; i < dimg.getHeight(); i++) {
 				for (int j = 0; j < dimg.getWidth(); j++) {
 					if (pixelDatabinario[count] == 0.0) {
@@ -76,7 +76,7 @@ public class imagenes {
 					count++;
 				}
 				System.out.println();
-			}
+			}*/
 			entrenamientosBW = variables.getBw();
 			entrenamientosGRAY = variables.getGray();
 			for (int e = 0; e < pixelDataGrayBn.length; e++) {

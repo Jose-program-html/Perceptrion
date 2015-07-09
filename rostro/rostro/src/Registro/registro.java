@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.Console;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -172,9 +171,9 @@ public class registro extends JFrame {
 							String bw = variables.getBw()[i];
 							con.agregar("entrada", "gris,bn,idUsuario", gray
 									+ "," + bw + "," + variables.getIdusuario());
-							Actualizar update = new Actualizar();
-							update.actualizarid();
 						}
+						Actualizar update = new Actualizar();
+						update.actualizarid();
 					}
 
 				} catch (Exception e) {
@@ -201,7 +200,6 @@ public class registro extends JFrame {
 
 		btnImagen_1 = new JButton("Foto");
 		btnImagen_1.addActionListener(new ActionListener() {
-			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent arg0) {
 				myThread.runnable2 = true;
 			}
