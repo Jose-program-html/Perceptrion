@@ -1,33 +1,35 @@
-package OpencvNeuroph;
-
-import java.awt.EventQueue;
-import java.util.Arrays;
-
-import org.neuroph.nnet.MultiLayerPerceptron;
-import org.neuroph.core.data.DataSet;
-import org.neuroph.core.data.DataSetRow;
-import org.neuroph.util.TransferFunctionType;
+package Registro;
 
 import Bd.conexion;
-import Registro.registro;
 
-public class Entrenamiento {
-	static String []binario;
-	double aux=1.0;
+public class Entrenamiento2 {
+	static String[] gris;
+	static double[][] Entrenargris;
+	static double[] Entrenarsalidas;
 	public static int ids;
-	
-	conexion con;
-	public Entrenamiento(int id) {
-		ids=id;
-		String binariodata = variables.getBw();
-		binario=binariodata.split(" ");
+
+	public Entrenamiento2() {
+		conexion con = new conexion();
+		con.conteo("entrada", "COUNT(*)");
+		int id = Integer.parseInt(con.registro_busqueda);
+		Entrenargris = new double[id][10000];
+		ids = id;
+		for (int j = 0; j < ids; j++) {
+			con.busquedaClausula("entrada", "id", "gris", String.valueOf(j + 1));
+			gris = con.registro_busqueda.split(" ");
+			double[] entrenar = new double[10000];
+			for (int i = 0; i < 10000; i++) {
+				entrenar[i] = Double.parseDouble(gris[i]);
+			}
+			Entrenargris[j]=entrenar;
+		}
 	}
 
 	public static int numEpocas = 10; // número de ciclos de entrenamiento
 	public static int numEntradas = 10001; // número de entradas - esto incluye
 											// la entrada bias (umbral)
 	public static int numUOcultas = 10; // número de unidades ocultas
-	public static int numPatrones = 1; // número de patrones a entranar
+	public static int numPatrones = ids*5; // número de patrones a entranar
 	public static double TA_EO = 0.7; // tasa de aprendizaje
 	public static double TA_SO = 0.07; // tasa de aprendizaje
 
@@ -145,23 +147,23 @@ public class Entrenamiento {
 
 	public static void inicioDatos() {
 		System.out.println("initializando datos");
-		
-		double[] entrenar = new double[10000];
-		for(int i=0;i<10000;i++){
-			entrenar[i]=Double.parseDouble(binario[i]);
-		}
+
 		for (int j = 0; j < numPatrones; j++) {
 			for (int i = 0; i < 10001; i++) {
 				if (i == 10000) {
 					entrenaEntradas[j][i] = 1;
 				} else {
-					entrenaEntradas[j][i] = entrenar[i];
+					entrenaEntradas[j][i] = Entrenargris[j][i];
 				}
 			}
 		}
 		conexion con = new conexion();
 		for(int i = 0; i< numPatrones;i++){
-			entrenaSalidas[i] = ids;
+			con.busquedaClausula("entrada", "id", "idusuario", String.valueOf(i + 1));
+			String aux=con.registro_busqueda.substring(0, con.registro_busqueda.length()-1);
+			System.out.println(aux);
+			int salida = Integer.parseInt(aux);
+			entrenaSalidas[i] = salida;
 		}
 	}
 
@@ -186,7 +188,7 @@ public class Entrenamiento {
 					.println("patrón = " + (numPat + 1) + " actual = "
 							+ entrenaSalidas[numPat] + " modelo neural = "
 							+ predSalida);
-			con.busquedaClausula("entrada", "entrenamientobinario", predSalida+"", "id="+(i+1));
+			con.actualizar("entrada", "entrenamientogris", predSalida+"", "id="+(i+1));
 		}
 	}
 

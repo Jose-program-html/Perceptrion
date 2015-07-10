@@ -8,8 +8,6 @@ public class Entrenamiento {
 	static double[] Entrenarsalidas;
 	public static int ids;
 
-	conexion con;
-
 	public Entrenamiento() {
 		conexion con = new conexion();
 		con.conteo("entrada", "COUNT(*)");
@@ -167,20 +165,6 @@ public class Entrenamiento {
 			int salida = Integer.parseInt(aux);
 			entrenaSalidas[i] = salida;
 		}
-		/*
-		 * entrenaEntradas[0][0] = 1; entrenaEntradas[0][1] = -1;
-		 * entrenaEntradas[0][2] = 1;//bias (umbral) entrenaSalidas[0] = 1;
-		 * 
-		 * entrenaEntradas[1][0] = -1; entrenaEntradas[1][1] = 1;
-		 * entrenaEntradas[1][2] = 1;//bias(umbral) entrenaSalidas[1] = 1;
-		 * 
-		 * entrenaEntradas[2][0] = 1; entrenaEntradas[2][1] = 1;
-		 * entrenaEntradas[2][2] = 1;//bias(umbral) entrenaSalidas[2] = -1;
-		 * 
-		 * entrenaEntradas[3][0] = -1; entrenaEntradas[3][1] = -1;
-		 * entrenaEntradas[3][2] = 1;//bias(umbral) entrenaSalidas[3] = -1;
-		 */
-
 	}
 
 	public static double tanh(double x) {

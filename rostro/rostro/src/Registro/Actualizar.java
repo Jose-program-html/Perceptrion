@@ -25,6 +25,8 @@ public class Actualizar {
 			}
 			Entrenamiento training = new Entrenamiento();
 			training.principal();
+			Entrenamiento2 training2 = new Entrenamiento2();
+			training2.principal();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

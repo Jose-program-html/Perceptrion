@@ -210,9 +210,6 @@ public class Claseimagen {
 			System.out.println(variables.get_id());
 			System.out.println(variables.getBw());
 			System.out.println(variables.getGray());
-			con= new conexion();
-			con.agregar("entrada", "gris,bn,idUsuario", variables.getGray()+","+
-					variables.getBw()+","+variables.get_id());
 			Entrenamiento entrenamiento = new Entrenamiento(variables.get_id());
 			Entrenamiento2 entrenamiento2 = new Entrenamiento2(variables.get_id());
 			
