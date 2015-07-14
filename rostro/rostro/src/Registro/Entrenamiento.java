@@ -29,7 +29,7 @@ public class Entrenamiento {
 	public static int numEntradas = 10001; // número de entradas - esto incluye
 											// la entrada bias (umbral)
 	public static int numUOcultas = 10; // número de unidades ocultas
-	public static int numPatrones = ids*5; // número de patrones a entranar
+	public static int numPatrones = ids; // número de patrones a entranar
 	public static double TA_EO = 0.7; // tasa de aprendizaje
 	public static double TA_SO = 0.07; // tasa de aprendizaje
 

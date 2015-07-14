@@ -7,7 +7,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import org.opencv.core.Core;
@@ -22,8 +21,6 @@ import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-
-import Bd.conexion;
 
 class DetectFaceDemo {
 	CascadeClassifier faceDetector = new CascadeClassifier(
@@ -203,7 +200,6 @@ public class Claseimagen {
 		
 	}
 	public static void main(String[] args) {
-		conexion con;
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		try {
 			new DetectFaceDemo().run();
@@ -211,7 +207,9 @@ public class Claseimagen {
 			System.out.println(variables.getBw());
 			System.out.println(variables.getGray());
 			Entrenamiento entrenamiento = new Entrenamiento(variables.get_id());
+			entrenamiento.principal();
 			Entrenamiento2 entrenamiento2 = new Entrenamiento2(variables.get_id());
+			entrenamiento2.principal();
 			
 		} catch (Throwable ex) {
 			Logger.getLogger(Claseimagen.class.getName()).log(Level.SEVERE, null, ex);
