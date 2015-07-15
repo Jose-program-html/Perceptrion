@@ -8,7 +8,6 @@ public class LoginTrainingBinary {
 	public static int ids;
 	static double[][] Entrenarbinarios;
 	static double[] Entrenarsalidas;
-
 	conexion con;
 
 	public LoginTrainingBinary(int usuarioid) {
@@ -39,7 +38,7 @@ public class LoginTrainingBinary {
 		}
 	}
 
-	public static int numEpocas = 10; // número de ciclos de entrenamiento
+	public static int numEpocas = 100; // número de ciclos de entrenamiento
 	public static int numEntradas = 10001; // número de entradas - esto incluye
 											// la entrada bias (umbral)
 	public static int numUOcultas = 10; // número de unidades ocultas

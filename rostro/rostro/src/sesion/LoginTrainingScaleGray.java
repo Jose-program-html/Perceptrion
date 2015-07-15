@@ -6,12 +6,14 @@ public class LoginTrainingScaleGray {
 	static String[] binario;
 	double aux = 1.0;
 	public static int ids;
+	public static int userid;
 	static double[][] Entrenarbinarios;
 	static double[] Entrenarsalidas;
 
 	conexion con;
 
 	public LoginTrainingScaleGray(int usuarioid) {
+		userid=usuarioid;
 		conexion con = new conexion();
 		con.conteo("entrada", "COUNT(*)");
 		int id = Integer.parseInt(con.registro_busqueda);
@@ -39,7 +41,7 @@ public class LoginTrainingScaleGray {
 		}
 	}
 
-	public static int numEpocas = 10; // número de ciclos de entrenamiento
+	public static int numEpocas = 100; // número de ciclos de entrenamiento
 	public static int numEntradas = 10001; // número de entradas - esto incluye
 											// la entrada bias (umbral)
 	public static int numUOcultas = 10; // número de unidades ocultas
@@ -203,6 +205,10 @@ public class LoginTrainingScaleGray {
 
 	public static void muestraResultados() {
 		conexion con = new conexion();
+		con.conteo("usuario", "COUNT(*)");
+		int id = Integer.parseInt(con.registro_busqueda);
+		id++;
+		double[] Pesospromedios = new double[id];
 		for (int i = 0; i < numPatrones; i++) {
 			numPat = i;
 			calcRed();
@@ -210,7 +216,28 @@ public class LoginTrainingScaleGray {
 					.println("patrón = " + (numPat + 1) + " actual = "
 							+ entrenaSalidas[numPat] + " modelo neural = "
 							+ predSalida);
-			//con.busquedaClausula("entrada", "entrenamientobinario", predSalida + "", "id=" + (i + 1));
+			int j = (int) entrenaSalidas[numPat];
+			Pesospromedios[j-1]+=predSalida;
+
+		}
+		for(int i = 0; i < Pesospromedios.length-1; i++){
+			Pesospromedios[i]=Pesospromedios[i]/5;
+		}
+		double temp = 1.0;
+		double comp = 0.0;
+		int idtemp = 0;
+		for(int i = 0; i < Pesospromedios.length-1; i++){
+			comp=Pesospromedios[Pesospromedios.length-1]-Pesospromedios[i];
+			comp=Math.abs(comp);
+			if(comp<temp){
+				temp=comp;
+				idtemp=i+1;
+			}
+		}
+		if(idtemp==userid){
+			con = new conexion();
+			con.busqueda("usuario", "id", "usuario", ""+idtemp);
+			System.out.println("Bienvenido: "+ con.registro_busqueda);
 		}
 	}
 

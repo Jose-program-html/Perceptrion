@@ -17,12 +17,6 @@ import org.opencv.imgproc.Imgproc;
 
 public class Claseimagen {
 	int _id=0;
-	
-	public Claseimagen(String id) {
-		_id=Integer.parseInt(id);
-		variables.set_id(_id);
-		
-	}
 
 	public double[] entrenamientos;
 	public double[] entrenamientos1;
@@ -53,7 +47,6 @@ public class Claseimagen {
 						* dimg.getWidth()];
 			entrenamientos1 = new double[dimg.getHeight()
 						* dimg.getWidth()];
-
 			double[] pixelDataGrayBn = new double[dimg.getHeight()
 					* dimg.getWidth()];
 			double[] pixelDatabinario = new double[dimg.getHeight()
@@ -71,7 +64,6 @@ public class Claseimagen {
 						} else {
 							pixelDatabinario[counter] = 0;
 						}
-
 						counter++;
 					}
 				}
@@ -88,6 +80,8 @@ public class Claseimagen {
 				}
 				System.out.println();
 			}
+			entrenamientosBW = variables.getBw();
+			entrenamientosGRAY = variables.getGray();
 			for (int e = 0; e < pixelDataGrayBn.length; e++) {
 				entrenamientos1[e] = pixelDataGrayBn[e];
 				entrenamientosGRAY += entrenamientos1[e] + " ";

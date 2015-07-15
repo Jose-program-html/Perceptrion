@@ -142,7 +142,7 @@ public class registro extends JFrame {
 		panel.setBounds(10, 15, 440, 350);
 		panel.setLayout(new BorderLayout());
 
-		JButton btnImagen = new JButton("Guardar");
+		final JButton btnImagen = new JButton("Guardar");
 		btnImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				con = new conexion();
@@ -200,6 +200,7 @@ public class registro extends JFrame {
 		btnImagen_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				myThread.runnable2 = true;
+				btnImagen.setEnabled(true);
 			}
 		});
 		btnImagen_1.setForeground(Color.WHITE);
