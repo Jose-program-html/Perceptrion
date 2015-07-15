@@ -39,7 +39,6 @@ public class Claseimagen {
 		Imgproc.cvtColor(tamaño, gris, Imgproc.COLOR_RGB2GRAY);
 		Mat imgH = new Mat(gris.rows(),gris.cols(),gris.type());
 		gris.convertTo(imgH, -1, 2.5, 0);
-		Highgui.imwrite("prueba.jpg", imgH);
 		MatOfByte matOfByte = new MatOfByte();
 		try {
 			Highgui.imencode(".bmp", imgH, matOfByte);

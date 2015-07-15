@@ -30,9 +30,11 @@ public class imagenes {
 		Imgproc.resize(result, tamaño, sz);
 		Mat gris = new Mat(tamaño.width(), tamaño.height(), tamaño.type());
 		Imgproc.cvtColor(tamaño, gris, Imgproc.COLOR_RGB2GRAY);
+		Mat imgH = new Mat(gris.rows(),gris.cols(),gris.type());
+		gris.convertTo(imgH, -1, 2.5, 0);
 		MatOfByte matOfByte = new MatOfByte();
 		try {
-			Highgui.imencode(".bmp", gris, matOfByte);
+			Highgui.imencode(".bmp", imgH, matOfByte);
 			Image im = ImageIO.read(new ByteArrayInputStream(
 					matOfByte.toArray()));
 			BufferedImage dimg = new BufferedImage(100, 100,
