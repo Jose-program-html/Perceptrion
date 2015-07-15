@@ -87,7 +87,7 @@ public class LoginTrainingBinary {
 			// despliega (muestra) el error de la red total después de cada
 			// época
 			calcTotalError();
-			System.out.println("epocas = " + j + "  RMS Error = " + RMSerror);
+			//System.out.println("epocas = " + j + "  RMS Error = " + RMSerror);
 		}
 		// el entranamiento ha terminado y muestra los resultados
 		muestraResultados();
@@ -160,7 +160,6 @@ public class LoginTrainingBinary {
 
 	public static void inicioDatos() {
 		System.out.println("initializando datos");
-
 		for (int j = 0; j < numPatrones; j++) {
 			for (int i = 0; i < 10001; i++) {
 				if (i == 10000) {
@@ -201,7 +200,6 @@ public class LoginTrainingBinary {
 	}
 
 	public static void muestraResultados() {
-		conexion con = new conexion();
 		for (int i = 0; i < numPatrones; i++) {
 			numPat = i;
 			calcRed();
@@ -209,7 +207,6 @@ public class LoginTrainingBinary {
 					.println("patrón = " + (numPat + 1) + " actual = "
 							+ entrenaSalidas[numPat] + " modelo neural = "
 							+ predSalida);
-			//con.busquedaClausula("entrada", "entrenamientobinario", predSalida + "", "id=" + (i + 1));
 		}
 	}
 

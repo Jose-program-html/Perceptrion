@@ -41,7 +41,7 @@ public class LoginTrainingScaleGray {
 		}
 	}
 
-	public static int numEpocas = 100; // número de ciclos de entrenamiento
+	public static int numEpocas = 500; // número de ciclos de entrenamiento
 	public static int numEntradas = 10001; // número de entradas - esto incluye
 											// la entrada bias (umbral)
 	public static int numUOcultas = 10; // número de unidades ocultas
@@ -90,7 +90,7 @@ public class LoginTrainingScaleGray {
 			// despliega (muestra) el error de la red total después de cada
 			// época
 			calcTotalError();
-			System.out.println("epocas = " + j + "  RMS Error = " + RMSerror);
+			//System.out.println("epocas = " + j + "  RMS Error = " + RMSerror);
 		}
 		// el entranamiento ha terminado y muestra los resultados
 		muestraResultados();
@@ -234,10 +234,12 @@ public class LoginTrainingScaleGray {
 				idtemp=i+1;
 			}
 		}
-		if(idtemp==userid){
-			con = new conexion();
-			con.busqueda("usuario", "id", "usuario", ""+idtemp);
+		con = new conexion();
+		con.busqueda("usuario", "id", "usuario", ""+idtemp);
+		if(con.registro_busqueda!=""){
 			System.out.println("Bienvenido: "+ con.registro_busqueda);
+		}else{
+			System.out.println("Usuario no Registrado");
 		}
 	}
 

@@ -19,7 +19,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -43,7 +42,6 @@ public class registro extends JFrame {
 	private JTextField _password;
 	private JTextField _nombreusuario;
 	static JPanel panel;
-	static JLabel etiqueta;
 	private DaemonThread myThread = null;
 	int count = variables.get_id();
 	public VideoCapture webSource = null;
@@ -229,8 +227,6 @@ public class registro extends JFrame {
 		_nombreusuario.setBounds(462, 69, 204, 36);
 		contentPane.add(_nombreusuario);
 		contentPane.add(panel);
-		etiqueta = new JLabel();
-		panel.add(etiqueta, BorderLayout.CENTER);
 		webSource = new VideoCapture(0);
 		myThread = new DaemonThread();
 		Thread t = new Thread(myThread);

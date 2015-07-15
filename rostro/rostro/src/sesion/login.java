@@ -1,13 +1,11 @@
 package sesion;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,7 +19,6 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
 import Bd.conexion;
-import Registro.variables;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -46,7 +43,6 @@ public class login extends JFrame {
 	private JTextField _usuario;
 	private conexion con;
 	static JPanel panel;
-	static JLabel etiqueta;
 	private DaemonThread myThread = null;
 	int count = variables.get_id();
 	public VideoCapture webSource = null;
@@ -202,8 +198,6 @@ public class login extends JFrame {
 		panel = new JPanel();
 		panel.setBounds(10, 15, 440, 350);
 		contentPane.add(panel);
-		etiqueta = new JLabel();
-		panel.add(etiqueta, BorderLayout.CENTER);
 		webSource = new VideoCapture(0);
 		myThread = new DaemonThread();
 		Thread t = new Thread(myThread);
