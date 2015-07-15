@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,7 +20,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -71,11 +69,11 @@ public class registro extends JFrame {
 							if (runnable2) {
 								faceDetector.detectMultiScale(frame,
 										faceDetections);
-								if (faceDetections.toArray().length != 0) {
-									lop.guardar(frame, count);
-									count++;
-								}
 								for (Rect rect : faceDetections.toArray()) {
+									if (faceDetections.toArray().length == 1) {
+										lop.guardar(frame, count,new Point(rect.x,rect.y),new Point(rect.x + rect.width,rect.y + rect.height));
+										count++;
+									}
 									Core.rectangle(frame, new Point(rect.x,
 											rect.y),
 											new Point(rect.x + rect.width,

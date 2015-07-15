@@ -23,9 +23,9 @@ public class Actualizar {
 			for(int i = 0;i<id;i++){
 				con.actualizar("usuario", "salida", ids[i], "id="+(id-i));
 			}
-			Entrenamiento training = new Entrenamiento();
+			SigninTrainingBinary training = new SigninTrainingBinary();
 			training.principal();
-			Entrenamiento2 training2 = new Entrenamiento2();
+			SigninTrainingScaleGray training2 = new SigninTrainingScaleGray();
 			training2.principal();
 		} catch (Exception e) {
 			e.printStackTrace();

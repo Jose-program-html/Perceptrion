@@ -2,26 +2,26 @@ package Registro;
 
 import Bd.conexion;
 
-public class Entrenamiento2 {
-	static String[] gris;
-	static double[][] Entrenargris;
+public class SigninTrainingBinary {
+	static String[] binario;
+	static double[][] Entrenarbinarios;
 	static double[] Entrenarsalidas;
 	public static int ids;
 
-	public Entrenamiento2() {
+	public SigninTrainingBinary() {
 		conexion con = new conexion();
 		con.conteo("entrada", "COUNT(*)");
 		int id = Integer.parseInt(con.registro_busqueda);
-		Entrenargris = new double[id][10000];
+		Entrenarbinarios = new double[id][10000];
 		ids = id;
 		for (int j = 0; j < ids; j++) {
-			con.busquedaClausula("entrada", "id", "gris", String.valueOf(j + 1));
-			gris = con.registro_busqueda.split(" ");
+			con.busquedaClausula("entrada", "id", "bn", String.valueOf(j + 1));
+			binario = con.registro_busqueda.split(" ");
 			double[] entrenar = new double[10000];
 			for (int i = 0; i < 10000; i++) {
-				entrenar[i] = Double.parseDouble(gris[i]);
+				entrenar[i] = Double.parseDouble(binario[i]);
 			}
-			Entrenargris[j]=entrenar;
+			Entrenarbinarios[j]=entrenar;
 		}
 	}
 
@@ -153,7 +153,7 @@ public class Entrenamiento2 {
 				if (i == 10000) {
 					entrenaEntradas[j][i] = 1;
 				} else {
-					entrenaEntradas[j][i] = Entrenargris[j][i];
+					entrenaEntradas[j][i] = Entrenarbinarios[j][i];
 				}
 			}
 		}
@@ -188,7 +188,7 @@ public class Entrenamiento2 {
 					.println("patrón = " + (numPat + 1) + " actual = "
 							+ entrenaSalidas[numPat] + " modelo neural = "
 							+ predSalida);
-			con.actualizar("entrada", "entrenamientogris", predSalida+"", "id="+(i+1));
+			con.actualizar("entrada", "entrenamientobinario", predSalida+"", "id="+(i+1));
 		}
 	}
 

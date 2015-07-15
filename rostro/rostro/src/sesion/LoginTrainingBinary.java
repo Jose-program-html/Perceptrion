@@ -1,8 +1,8 @@
-package OpencvNeuroph;
+package sesion;
 
 import Bd.conexion;
 
-public class Entrenamiento2 {
+public class LoginTrainingBinary {
 	static String[] binario;
 	double aux = 1.0;
 	public static int ids;
@@ -11,7 +11,7 @@ public class Entrenamiento2 {
 
 	conexion con;
 
-	public Entrenamiento2(int usuarioid) {
+	public LoginTrainingBinary(int usuarioid) {
 		conexion con = new conexion();
 		con.conteo("entrada", "COUNT(*)");
 		int id = Integer.parseInt(con.registro_busqueda);
@@ -19,7 +19,7 @@ public class Entrenamiento2 {
 		Entrenarbinarios = new double[ids][10000];
 		for (int j = 0; j < ids; j++) {
 			if (j != ids -1) {
-				con.busquedaClausula("entrada", "id", "gris",
+				con.busquedaClausula("entrada", "id", "bn",
 						String.valueOf(j + 1));
 				binario = con.registro_busqueda.split(" ");
 				double[] entrenar = new double[10000];
@@ -28,7 +28,7 @@ public class Entrenamiento2 {
 				}
 				Entrenarbinarios[j] = entrenar;
 			} else {
-				String binariodata = variables.getGray();
+				String binariodata = variables.getBw();
 				binario = binariodata.split(" ");
 				double[] entrenar = new double[10000];
 				for (int i = 0; i < 10000; i++) {

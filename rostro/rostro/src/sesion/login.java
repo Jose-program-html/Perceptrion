@@ -2,38 +2,103 @@ package sesion;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
-
 import java.awt.Color;
 import java.awt.Font;
-
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
-
 import Bd.conexion;
-import OpencvNeuroph.Claseimagen;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import javax.swing.JPasswordField;
-
-import org.neuroph.contrib.samples.stockmarket.Main;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfRect;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.highgui.Highgui;
+import org.opencv.highgui.VideoCapture;
+import org.opencv.objdetect.CascadeClassifier;
 
+@SuppressWarnings("serial")
 public class login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField _usuario;
 	private conexion con;
-	private JPasswordField _password;
+	static JPanel panel;
+	static JLabel etiqueta;
+	private DaemonThread myThread = null;
+	int count = variables.get_id();
+	public VideoCapture webSource = null;
+	public Claseimagen lop;
+	Mat frame = new Mat();
+	MatOfByte mem = new MatOfByte();
+	CascadeClassifier faceDetector = new CascadeClassifier(
+			"C:\\opencv\\sources\\data\\lbpcascades\\lbpcascade_frontalface.xml");
+	MatOfRect faceDetections = new MatOfRect();
+	
+	class DaemonThread implements Runnable {
+		protected volatile boolean runnable = false;
+		protected volatile boolean runnable2 = false;
+		
+		@Override
+		public void run() {
+			synchronized (this) {
+				while (runnable) {
+					if (webSource.grab()) {
+						try {
+							Thread.sleep(10);
+							webSource.retrieve(frame);
+							if (runnable2) {
+								faceDetector.detectMultiScale(frame,
+										faceDetections);
+								for (Rect rect : faceDetections.toArray()) {
+									if (faceDetections.toArray().length == 1) {
+										lop.guardar(frame,new Point(rect.x,rect.y),new Point(rect.x + rect.width,rect.y + rect.height));
+									}
+									Core.rectangle(frame, new Point(rect.x,
+											rect.y),
+											new Point(rect.x + rect.width,
+													rect.y + rect.height),
+											new Scalar(0, 255, 0));
+								}
+							}
+							Highgui.imencode(".bmp", frame, mem);
+							Image im = ImageIO.read(new ByteArrayInputStream(
+									mem.toArray()));
+							BufferedImage buff = (BufferedImage) im;
+							Graphics g = panel.getGraphics();
+							if (g.drawImage(buff, 0, 0, getWidth(),
+									getHeight(), 0, 0, buff.getWidth(),
+									buff.getHeight(), null))
+
+								if (runnable == false) {
+									System.out.println("Going to wait()");
+									this.wait();
+								}
+						} catch (Exception ex) {
+							ex.printStackTrace();
+							System.out.println(ex);
+						}
+					}
+					runnable2 = false;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Launch the application.
@@ -42,6 +107,7 @@ public class login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 					login frame = new login();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
@@ -57,7 +123,7 @@ public class login extends JFrame {
 	 */
 	public login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 363, 180);
+		setBounds(100, 100, 477, 485);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new TitledBorder(new LineBorder(new Color(0, 128, 128), 4, true), "INICIAR SESI\u00D3N", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 128, 128)));
@@ -67,8 +133,9 @@ public class login extends JFrame {
 		JButton button = new JButton("INICIAR");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				myThread.runnable2 = true;
 				con= new conexion();
-				con.busqueda("usuario", "usuario", "usuario,contrasena,id", _usuario.getText().trim());
+				con.busqueda("usuario", "usuario", "usuario,id", _usuario.getText().trim());
 				String resultado=con.registro_busqueda;
 				if(resultado.equals(""))
 				{
@@ -77,12 +144,10 @@ public class login extends JFrame {
 				else
 				{
 					String[] columnas = resultado.split(",");
-					if(columnas[0].equals(_usuario.getText().trim())&&columnas[1].equals(_password.getText().trim()))
+					if(columnas[0].equals(_usuario.getText().trim()))
 					{
-						//ABRIR VENTANA CAMARA
-						Claseimagen n = new Claseimagen(columnas[2]);
-						n.main(null);
-						//JOptionPane.showMessageDialog(null, columnas[2]);
+						lop = new Claseimagen(columnas[1]);
+						
 					}
 					else
 					{
@@ -92,7 +157,7 @@ public class login extends JFrame {
 				
 			}
 		});
-		button.setBounds(225, 40, 91, 60);
+		button.setBounds(359, 374, 91, 60);
 		button.setForeground(Color.WHITE);
 		button.setFont(new Font("Tahoma", Font.BOLD, 10));
 		button.setBackground(new Color(0, 128, 128));
@@ -102,15 +167,20 @@ public class login extends JFrame {
 		_usuario.setBorder(new TitledBorder(new LineBorder(new Color(0, 128, 128), 2, true), "USUARIO", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 128, 128)));
 		_usuario.setHorizontalAlignment(SwingConstants.CENTER);
 		_usuario.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		_usuario.setBounds(24, 21, 173, 36);
+		_usuario.setBounds(175, 381, 173, 36);
 		contentPane.add(_usuario);
 		_usuario.setColumns(10);
 		
-		_password = new JPasswordField();
-		_password.setHorizontalAlignment(SwingConstants.CENTER);
-		_password.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		_password.setBorder(new TitledBorder(new LineBorder(new Color(0, 128, 128), 2, true), "CONTRASE\u00D1A", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 128, 128)));
-		_password.setBounds(24, 68, 173, 36);
-		contentPane.add(_password);
+		panel = new JPanel();
+		panel.setBounds(10, 15, 440, 350);
+		contentPane.add(panel);
+		etiqueta = new JLabel();
+		panel.add(etiqueta, BorderLayout.CENTER);
+		webSource = new VideoCapture(0);
+		myThread = new DaemonThread();
+		Thread t = new Thread(myThread);
+		t.setDaemon(true);
+		myThread.runnable = true;
+		t.start();
 	}
 }

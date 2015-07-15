@@ -1,4 +1,4 @@
-package Registro;
+package sesion;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -15,14 +15,21 @@ import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
-public class imagenes {
+public class Claseimagen {
+	int _id=0;
+	
+	public Claseimagen(String id) {
+		_id=Integer.parseInt(id);
+		variables.set_id(_id);
+		
+	}
 
-	public double[][] entrenamientos;
-	public double[][] entrenamientos1;
-	public String[] entrenamientosBW = new String[5];
-	public String[] entrenamientosGRAY = new String[5];
+	public double[] entrenamientos;
+	public double[] entrenamientos1;
+	public String entrenamientosBW;
+	public String entrenamientosGRAY;
 
-	public void guardar(Mat imagen, int num, Point p1, Point p2) {
+	public void guardar(Mat imagen, Point p1, Point p2) {
 		Rect rectCrop = new Rect(p1, p2);
 		Mat result = imagen.submat(rectCrop);
 		Mat tamaño = new Mat(result.width(), result.height(), result.type());
@@ -30,9 +37,12 @@ public class imagenes {
 		Imgproc.resize(result, tamaño, sz);
 		Mat gris = new Mat(tamaño.width(), tamaño.height(), tamaño.type());
 		Imgproc.cvtColor(tamaño, gris, Imgproc.COLOR_RGB2GRAY);
+		Mat imgH = new Mat(gris.rows(),gris.cols(),gris.type());
+		gris.convertTo(imgH, -1, 2.5, 0);
+		Highgui.imwrite("prueba.jpg", imgH);
 		MatOfByte matOfByte = new MatOfByte();
 		try {
-			Highgui.imencode(".bmp", gris, matOfByte);
+			Highgui.imencode(".bmp", imgH, matOfByte);
 			Image im = ImageIO.read(new ByteArrayInputStream(
 					matOfByte.toArray()));
 			BufferedImage dimg = new BufferedImage(100, 100,
@@ -40,15 +50,11 @@ public class imagenes {
 			Graphics2D g2d = dimg.createGraphics();
 			g2d.drawImage(im, 0, 0, null);
 			g2d.dispose();
-			if (num == 0) {
-				entrenamientos = new double[5][dimg.getHeight()
+			entrenamientos = new double[dimg.getHeight()
 						* dimg.getWidth()];
-				entrenamientos1 = new double[5][dimg.getHeight()
+			entrenamientos1 = new double[dimg.getHeight()
 						* dimg.getWidth()];
-				entrenamientosBW = variables.getBw();
-				entrenamientosGRAY = variables.getGray();
-				
-			}
+
 			double[] pixelDataGrayBn = new double[dimg.getHeight()
 					* dimg.getWidth()];
 			double[] pixelDatabinario = new double[dimg.getHeight()
@@ -71,7 +77,7 @@ public class imagenes {
 					}
 				}
 			}
-/*			int count = 0;
+			int count = 0;
 			for (int i = 0; i < dimg.getHeight(); i++) {
 				for (int j = 0; j < dimg.getWidth(); j++) {
 					if (pixelDatabinario[count] == 0.0) {
@@ -82,17 +88,12 @@ public class imagenes {
 					count++;
 				}
 				System.out.println();
-			}*/
-			entrenamientosBW = variables.getBw();
-			entrenamientosGRAY = variables.getGray();
+			}
 			for (int e = 0; e < pixelDataGrayBn.length; e++) {
-				entrenamientos1[num][e] = pixelDataGrayBn[e];
-				entrenamientosGRAY[num] += entrenamientos1[num][e] + " ";
-				// System.out.println(entrenamientos1[cont][e]);
-
-				entrenamientos[num][e] = pixelDatabinario[e];
-				entrenamientosBW[num] += entrenamientos[num][e] + " ";
-				// System.out.println(entrenamientos[cont][e]);
+				entrenamientos1[e] = pixelDataGrayBn[e];
+				entrenamientosGRAY += entrenamientos1[e] + " ";
+				entrenamientos[e] = pixelDatabinario[e];
+				entrenamientosBW+= entrenamientos[e] + " ";
 			}
 			variables.setBw(entrenamientosBW);
 			variables.setGray(entrenamientosGRAY);

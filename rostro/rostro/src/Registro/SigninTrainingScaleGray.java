@@ -1,41 +1,27 @@
-package OpencvNeuroph;
+package Registro;
 
 import Bd.conexion;
 
-public class Entrenamiento {
-	static String[] binario;
-	double aux = 1.0;
-	public static int ids;
-	static double[][] Entrenarbinarios;
+public class SigninTrainingScaleGray {
+	static String[] gris;
+	static double[][] Entrenargris;
 	static double[] Entrenarsalidas;
+	public static int ids;
 
-	conexion con;
-
-	public Entrenamiento(int usuarioid) {
+	public SigninTrainingScaleGray() {
 		conexion con = new conexion();
 		con.conteo("entrada", "COUNT(*)");
 		int id = Integer.parseInt(con.registro_busqueda);
-		ids = id+1;
-		Entrenarbinarios = new double[ids][10000];
+		Entrenargris = new double[id][10000];
+		ids = id;
 		for (int j = 0; j < ids; j++) {
-			if (j != ids -1) {
-				con.busquedaClausula("entrada", "id", "bn",
-						String.valueOf(j + 1));
-				binario = con.registro_busqueda.split(" ");
-				double[] entrenar = new double[10000];
-				for (int i = 0; i < 10000; i++) {
-					entrenar[i] = Double.parseDouble(binario[i]);
-				}
-				Entrenarbinarios[j] = entrenar;
-			} else {
-				String binariodata = variables.getBw();
-				binario = binariodata.split(" ");
-				double[] entrenar = new double[10000];
-				for (int i = 0; i < 10000; i++) {
-					entrenar[i] = Double.parseDouble(binario[i]);
-				}
-				Entrenarbinarios[j] = entrenar;
+			con.busquedaClausula("entrada", "id", "gris", String.valueOf(j + 1));
+			gris = con.registro_busqueda.split(" ");
+			double[] entrenar = new double[10000];
+			for (int i = 0; i < 10000; i++) {
+				entrenar[i] = Double.parseDouble(gris[i]);
 			}
+			Entrenargris[j]=entrenar;
 		}
 	}
 
@@ -167,25 +153,17 @@ public class Entrenamiento {
 				if (i == 10000) {
 					entrenaEntradas[j][i] = 1;
 				} else {
-					entrenaEntradas[j][i] = Entrenarbinarios[j][i];
+					entrenaEntradas[j][i] = Entrenargris[j][i];
 				}
 			}
 		}
 		conexion con = new conexion();
-		int salida = 0;
-		for (int i = 0; i < numPatrones; i++) {
-			if (i != ids - 1) {
-				con.busquedaClausula("entrada", "id", "idusuario",
-						String.valueOf(i + 1));
-				String aux = con.registro_busqueda.substring(0,
-						con.registro_busqueda.length() - 1);
-				System.out.println(aux);
-				salida = Integer.parseInt(aux);
-				entrenaSalidas[i] = salida;
-			}else{
-				entrenaSalidas[i] = salida;
-			}
-			salida++;
+		for(int i = 0; i< numPatrones;i++){
+			con.busquedaClausula("entrada", "id", "idusuario", String.valueOf(i + 1));
+			String aux=con.registro_busqueda.substring(0, con.registro_busqueda.length()-1);
+			System.out.println(aux);
+			int salida = Integer.parseInt(aux);
+			entrenaSalidas[i] = salida;
 		}
 	}
 
@@ -210,7 +188,7 @@ public class Entrenamiento {
 					.println("patrón = " + (numPat + 1) + " actual = "
 							+ entrenaSalidas[numPat] + " modelo neural = "
 							+ predSalida);
-			//con.busquedaClausula("entrada", "entrenamientobinario", predSalida + "", "id=" + (i + 1));
+			con.actualizar("entrada", "entrenamientogris", predSalida+"", "id="+(i+1));
 		}
 	}
 
