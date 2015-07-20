@@ -65,22 +65,23 @@ public class login extends JFrame {
 						try {
 							Thread.sleep(10);
 							webSource.retrieve(frame);
-							if (runnable2) {
-								faceDetector.detectMultiScale(frame,
-										faceDetections);
-								for (Rect rect : faceDetections.toArray()) {
+							faceDetector
+									.detectMultiScale(frame, faceDetections);
+							for (Rect rect : faceDetections.toArray()) {
 									if (faceDetections.toArray().length == 1) {
+										if (runnable2) {
 										lop.guardar(frame, new Point(rect.x,
 												rect.y), new Point(rect.x
 												+ rect.width, rect.y
 												+ rect.height));
+										}
+										runnable2 = false;
+										Core.rectangle(frame,
+												new Point(rect.x, rect.y), new Point(
+														rect.x + rect.width, rect.y
+																+ rect.height),
+												new Scalar(0, 255, 0));
 									}
-									Core.rectangle(frame, new Point(rect.x,
-											rect.y),
-											new Point(rect.x + rect.width,
-													rect.y + rect.height),
-											new Scalar(0, 255, 0));
-								}
 							}
 							Highgui.imencode(".bmp", frame, mem);
 							Image im = ImageIO.read(new ByteArrayInputStream(
@@ -99,7 +100,6 @@ public class login extends JFrame {
 							System.out.println(ex);
 						}
 					}
-					runnable2 = false;
 				}
 			}
 		}
@@ -151,7 +151,8 @@ public class login extends JFrame {
 					String[] columnas = resultado.split(",");
 					if (columnas[0].equals(_usuario.getText().trim())) {
 						variables.set_id(Integer.parseInt(columnas[1]));
-						if(variables.getBw()!=null||variables.getGray()!=null) {
+						if (variables.getBw() != null
+								|| variables.getGray() != null) {
 							LoginTrainingBinary Training = new LoginTrainingBinary(
 									variables.get_id());
 							Training.principal();

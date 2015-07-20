@@ -25,7 +25,7 @@ public class SigninTrainingScaleGray {
 		}
 	}
 
-	public static int numEpocas = 100; // número de ciclos de entrenamiento
+	public static int numEpocas = 500; // número de ciclos de entrenamiento
 	public static int numEntradas = 10001; // número de entradas - esto incluye
 											// la entrada bias (umbral)
 	public static int numUOcultas = 10; // número de unidades ocultas
@@ -63,7 +63,7 @@ public class SigninTrainingScaleGray {
 		for (int j = 0; j <= numEpocas; j++) {
 			for (int i = 0; i < numPatrones; i++) {
 				// selecciona un patrón como aleatorio
-				numPat = (int) ((Math.random() * numPatrones) - 0.001);
+				numPat = i;
 				// calcula la salida de la red en turno (presente) y el error
 				// para éste patrón
 				calcRed();

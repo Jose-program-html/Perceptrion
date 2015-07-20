@@ -1,6 +1,5 @@
 package Registro;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
@@ -64,12 +63,15 @@ public class registro extends JFrame {
 						try {
 							Thread.sleep(10);
 							webSource.retrieve(frame);
-							if (runnable2) {
-								faceDetector.detectMultiScale(frame,
-										faceDetections);
-								for (Rect rect : faceDetections.toArray()) {
-									if (faceDetections.toArray().length == 1) {
-										lop.guardar(frame, count,new Point(rect.x,rect.y),new Point(rect.x + rect.width,rect.y + rect.height));
+							faceDetector
+									.detectMultiScale(frame, faceDetections);
+							for (Rect rect : faceDetections.toArray()) {
+								if (faceDetections.toArray().length == 1) {
+									if (runnable2) {
+										lop.guardar(frame, count, new Point(
+												rect.x, rect.y), new Point(
+												rect.x + rect.width, rect.y
+														+ rect.height));
 										count++;
 									}
 									Core.rectangle(frame, new Point(rect.x,
@@ -99,6 +101,7 @@ public class registro extends JFrame {
 					variables.set_id(count);
 					if (variables.get_id() == 5) {
 						runnable2 = false;
+						count = 0;
 					}
 				}
 			}
@@ -128,19 +131,17 @@ public class registro extends JFrame {
 	 */
 	public registro() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 692, 416);
+		setBounds(100, 100, 477, 530);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new TitledBorder(new LineBorder(new Color(0, 128,
-				128), 4, true), "INICIAR SESI\u00D3N", TitledBorder.LEADING,
+				128), 4, true), "REGISTRO", TitledBorder.LEADING,
 				TitledBorder.TOP, null, new Color(0, 128, 128)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		panel = new JPanel();
-		panel.setBounds(10, 15, 440, 350);
-		panel.setLayout(new BorderLayout());
 
 		final JButton btnImagen = new JButton("Guardar");
+		btnImagen.setBounds(219, 416, 204, 29);
 		btnImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				con = new conexion();
@@ -157,10 +158,9 @@ public class registro extends JFrame {
 						con.busquedaClausula("usuario", "usuario", "id",
 								String.valueOf(_usuario.getText().trim()));
 						String id = con.registro_busqueda;
-						id=id.replace(",", "");
+						id = id.replace(",", "");
 						id.trim();
-						variables.setIdusuario(Integer
-								.parseInt(id));
+						variables.setIdusuario(Integer.parseInt(id));
 						System.out.println(variables.getIdusuario());
 						for (int i = 0; i < 5; i++) {
 							String gray = variables.getGray()[i];
@@ -178,23 +178,23 @@ public class registro extends JFrame {
 
 			}
 		});
-		btnImagen.setBounds(462, 210, 204, 29);
 		btnImagen.setForeground(Color.WHITE);
 		btnImagen.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnImagen.setBackground(new Color(0, 128, 128));
 		contentPane.add(btnImagen);
 
 		_usuario = new JTextField();
+		_usuario.setBounds(10, 411, 204, 36);
 		_usuario.setBorder(new TitledBorder(new LineBorder(new Color(0, 128,
 				128), 2, true), "USUARIO", TitledBorder.LEADING,
 				TitledBorder.TOP, null, new Color(0, 128, 128)));
 		_usuario.setHorizontalAlignment(SwingConstants.CENTER);
 		_usuario.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		_usuario.setBounds(462, 116, 204, 36);
 		contentPane.add(_usuario);
 		_usuario.setColumns(10);
 
 		btnImagen_1 = new JButton("Foto");
+		btnImagen_1.setBounds(219, 380, 95, 29);
 		btnImagen_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				myThread.runnable2 = true;
@@ -204,28 +204,30 @@ public class registro extends JFrame {
 		btnImagen_1.setForeground(Color.WHITE);
 		btnImagen_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnImagen_1.setBackground(new Color(0, 128, 128));
-		btnImagen_1.setBounds(462, 29, 95, 29);
 		contentPane.add(btnImagen_1);
 
 		_password = new JTextField();
+		_password.setBounds(10, 445, 204, 36);
 		_password.setHorizontalAlignment(SwingConstants.CENTER);
 		_password.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		_password.setColumns(10);
 		_password.setBorder(new TitledBorder(new LineBorder(new Color(0, 128,
 				128), 2, true), "CONTRASE\u00D1A", TitledBorder.LEADING,
 				TitledBorder.TOP, null, new Color(0, 128, 128)));
-		_password.setBounds(462, 163, 204, 36);
 		contentPane.add(_password);
 
 		_nombreusuario = new JTextField();
+		_nombreusuario.setBounds(10, 376, 204, 36);
 		_nombreusuario.setHorizontalAlignment(SwingConstants.CENTER);
 		_nombreusuario.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		_nombreusuario.setColumns(10);
 		_nombreusuario.setBorder(new TitledBorder(new LineBorder(new Color(0,
 				128, 128), 2, true), "NOMBRE DE USUARIO", TitledBorder.LEADING,
 				TitledBorder.TOP, null, new Color(0, 128, 128)));
-		_nombreusuario.setBounds(462, 69, 204, 36);
 		contentPane.add(_nombreusuario);
+		
+		panel = new JPanel();
+		panel.setBounds(10, 15, 440, 350);
 		contentPane.add(panel);
 		webSource = new VideoCapture(0);
 		myThread = new DaemonThread();

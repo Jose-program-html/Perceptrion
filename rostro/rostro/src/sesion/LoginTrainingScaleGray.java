@@ -6,6 +6,7 @@ public class LoginTrainingScaleGray {
 	static String[] binario;
 	double aux = 1.0;
 	public static int ids;
+	public static int id;
 	public static int userid;
 	static double[][] Entrenarbinarios;
 	static double[] Entrenarsalidas;
@@ -16,7 +17,7 @@ public class LoginTrainingScaleGray {
 		userid=usuarioid;
 		conexion con = new conexion();
 		con.conteo("entrada", "COUNT(*)");
-		int id = Integer.parseInt(con.registro_busqueda);
+		id = Integer.parseInt(con.registro_busqueda);
 		ids = id+1;
 		Entrenarbinarios = new double[ids][10000];
 		for (int j = 0; j < ids; j++) {
@@ -42,9 +43,8 @@ public class LoginTrainingScaleGray {
 	}
 
 	public static int numEpocas = 500; // número de ciclos de entrenamiento
-	public static int numEntradas = 10001; // número de entradas - esto incluye
-											// la entrada bias (umbral)
-	public static int numUOcultas = 10; // número de unidades ocultas
+	public static int numEntradas = 10001; // número de entradas - esto incluye // la entrada bias (umbral)
+	public static int numUOcultas = id; // número de unidades ocultas
 	public static int numPatrones = ids; // número de patrones a entranar
 	public static double TA_EO = 0.7; // tasa de aprendizaje
 	public static double TA_SO = 0.07; // tasa de aprendizaje
@@ -57,20 +57,24 @@ public class LoginTrainingScaleGray {
 
 	// entrenamiento de datos
 	// public static double[][] entrenaEntradas = new double[1][10001];
-	public static double[][] entrenaEntradas = new double[numPatrones][numEntradas];
-	public static double[] entrenaSalidas = new double[numPatrones];
+	public static double[][] entrenaEntradas;
+	public static double[] entrenaSalidas;
 
 	// las salidas de las neuronas ocultas
-	public static double[] valOculto = new double[numUOcultas];
+	public static double[] valOculto;
 
 	// los pesos
-	public static double[][] pesosEO = new double[numEntradas][numUOcultas];
-	public static double[] pesosOS = new double[numUOcultas];
+	public static double[][] pesosEO;
+	public static double[] pesosOS;
 
 	public void principal() {
+		numUOcultas = id+1;
 		numPatrones = ids;
 		entrenaEntradas = new double[numPatrones][numEntradas];
 		entrenaSalidas = new double[numPatrones];
+		valOculto = new double[numUOcultas];
+		pesosEO = new double[numEntradas][numUOcultas];
+		pesosOS = new double[numUOcultas];
 		// inicializa los pesos
 		inicioPesos();
 		// carga los datos
@@ -79,7 +83,7 @@ public class LoginTrainingScaleGray {
 		for (int j = 0; j <= numEpocas; j++) {
 			for (int i = 0; i < numPatrones; i++) {
 				// selecciona un patrón como aleatorio
-				numPat = (int) ((Math.random() * numPatrones) - 0.001);
+				numPat = i;
 				// calcula la salida de la red en turno (presente) y el error
 				// para éste patrón
 				calcRed();
@@ -206,9 +210,9 @@ public class LoginTrainingScaleGray {
 	public static void muestraResultados() {
 		conexion con = new conexion();
 		con.conteo("usuario", "COUNT(*)");
-		int id = Integer.parseInt(con.registro_busqueda);
-		id++;
-		double[] Pesospromedios = new double[id];
+		int iduser = Integer.parseInt(con.registro_busqueda);
+		iduser++;
+		double[] Pesospromedios = new double[iduser];
 		for (int i = 0; i < numPatrones; i++) {
 			numPat = i;
 			calcRed();

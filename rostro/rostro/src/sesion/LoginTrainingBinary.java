@@ -38,7 +38,7 @@ public class LoginTrainingBinary {
 		}
 	}
 
-	public static int numEpocas = 100; // número de ciclos de entrenamiento
+	public static int numEpocas = 10; // número de ciclos de entrenamiento
 	public static int numEntradas = 10001; // número de entradas - esto incluye
 											// la entrada bias (umbral)
 	public static int numUOcultas = 10; // número de unidades ocultas
@@ -177,7 +177,6 @@ public class LoginTrainingBinary {
 						String.valueOf(i + 1));
 				String aux = con.registro_busqueda.substring(0,
 						con.registro_busqueda.length() - 1);
-				System.out.println(aux);
 				salida = Integer.parseInt(aux);
 				entrenaSalidas[i] = salida;
 			}else{

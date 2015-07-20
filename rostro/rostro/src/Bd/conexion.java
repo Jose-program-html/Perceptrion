@@ -27,7 +27,7 @@ public class conexion {
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"
 					+ bd, user, pass);
 			if (con != null) {
-				System.out.println("**Conectados");
+				//System.out.println("**Conectados");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("Error en la conexion:\n" + e);
@@ -44,22 +44,22 @@ public class conexion {
 	// Recibe el nombre de la tabla, los campos a tratar, y los valores a
 	// agregar
 	public boolean agregar(String tabla, String campos, String valores) {
-		System.out.println("Entramos a agregar");
+		//System.out.println("Entramos a agregar");
 		String query = "INSERT INTO " + tabla;
 		String[] camp = campos.split(",");
 		int max = camp.length;
 
 		query += campos(max, camp);
-		System.out.println("Despues de query +  campos");
+		//System.out.println("Despues de query +  campos");
 		query += valores(max);
-		System.out.println(query);
+		//System.out.println(query);
 		if (prepararEstados(query, valores)) {
 			// Devuelve verdadero cuando ha surgido algun error
 			System.out.println("agregar falso");
 			return false;
 		} else {
 			// Devuelve falso cuando todo ha salido bien
-			System.out.println("agregar verdadero");
+			//System.out.println("agregar verdadero");
 			return true;
 		}
 	}
@@ -93,7 +93,7 @@ public class conexion {
 			return false;
 		} else {
 			// Devuelve falso cuando todo ha salido bien
-			System.out.println("actualizar verdadero");
+			//System.out.println("actualizar verdadero");
 			return true;
 		}
 	}
@@ -107,7 +107,7 @@ public class conexion {
 			return false;
 		} else {
 			// Devuelve falso cuando todo ha salido bien
-			System.out.println("eliminar verdadero");
+			//System.out.println("eliminar verdadero");
 			return true;
 		}
 	}
@@ -210,8 +210,8 @@ public class conexion {
 			}
 			res.close();
 		} catch (Exception e) {
-			// System.out.println("Problemas al obtener la informacion en la Busqueda:\n"
-			// + e);
+			System.out.println("Problemas al obtener la informacion en la Busqueda:\n"
+			+ e);
 		}
 	}
 	
