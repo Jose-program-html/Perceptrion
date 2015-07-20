@@ -131,7 +131,7 @@ public class registro extends JFrame {
 	 */
 	public registro() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 477, 530);
+		setBounds(100, 100, 692, 412);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new TitledBorder(new LineBorder(new Color(0, 128,
@@ -141,7 +141,7 @@ public class registro extends JFrame {
 		contentPane.setLayout(null);
 
 		final JButton btnImagen = new JButton("Guardar");
-		btnImagen.setBounds(219, 416, 204, 29);
+		btnImagen.setBounds(460, 212, 204, 29);
 		btnImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				con = new conexion();
@@ -184,7 +184,7 @@ public class registro extends JFrame {
 		contentPane.add(btnImagen);
 
 		_usuario = new JTextField();
-		_usuario.setBounds(10, 411, 204, 36);
+		_usuario.setBounds(460, 62, 204, 36);
 		_usuario.setBorder(new TitledBorder(new LineBorder(new Color(0, 128,
 				128), 2, true), "USUARIO", TitledBorder.LEADING,
 				TitledBorder.TOP, null, new Color(0, 128, 128)));
@@ -194,7 +194,7 @@ public class registro extends JFrame {
 		_usuario.setColumns(10);
 
 		btnImagen_1 = new JButton("Foto");
-		btnImagen_1.setBounds(219, 380, 95, 29);
+		btnImagen_1.setBounds(460, 162, 95, 29);
 		btnImagen_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				myThread.runnable2 = true;
@@ -207,7 +207,7 @@ public class registro extends JFrame {
 		contentPane.add(btnImagen_1);
 
 		_password = new JTextField();
-		_password.setBounds(10, 445, 204, 36);
+		_password.setBounds(460, 113, 204, 36);
 		_password.setHorizontalAlignment(SwingConstants.CENTER);
 		_password.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		_password.setColumns(10);
@@ -217,7 +217,7 @@ public class registro extends JFrame {
 		contentPane.add(_password);
 
 		_nombreusuario = new JTextField();
-		_nombreusuario.setBounds(10, 376, 204, 36);
+		_nombreusuario.setBounds(460, 15, 204, 36);
 		_nombreusuario.setHorizontalAlignment(SwingConstants.CENTER);
 		_nombreusuario.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		_nombreusuario.setColumns(10);

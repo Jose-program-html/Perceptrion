@@ -42,9 +42,9 @@ public class LoginTrainingScaleGray {
 		}
 	}
 
-	public static int numEpocas = 500; // número de ciclos de entrenamiento
+	public static int numEpocas = 30; // número de ciclos de entrenamiento
 	public static int numEntradas = 10001; // número de entradas - esto incluye // la entrada bias (umbral)
-	public static int numUOcultas = id; // número de unidades ocultas
+	public static int numUOcultas = 100; // número de unidades ocultas
 	public static int numPatrones = ids; // número de patrones a entranar
 	public static double TA_EO = 0.7; // tasa de aprendizaje
 	public static double TA_SO = 0.07; // tasa de aprendizaje
@@ -60,21 +60,14 @@ public class LoginTrainingScaleGray {
 	public static double[][] entrenaEntradas;
 	public static double[] entrenaSalidas;
 
-	// las salidas de las neuronas ocultas
-	public static double[] valOculto;
-
-	// los pesos
-	public static double[][] pesosEO;
-	public static double[] pesosOS;
+	public static double[] valOculto = new double[numUOcultas];
+	public static double[][] pesosEO = new double[numEntradas][numUOcultas];
+	public static double[] pesosOS = new double[numUOcultas];
 
 	public void principal() {
-		numUOcultas = id+1;
 		numPatrones = ids;
 		entrenaEntradas = new double[numPatrones][numEntradas];
 		entrenaSalidas = new double[numPatrones];
-		valOculto = new double[numUOcultas];
-		pesosEO = new double[numEntradas][numUOcultas];
-		pesosOS = new double[numUOcultas];
 		// inicializa los pesos
 		inicioPesos();
 		// carga los datos
@@ -83,7 +76,7 @@ public class LoginTrainingScaleGray {
 		for (int j = 0; j <= numEpocas; j++) {
 			for (int i = 0; i < numPatrones; i++) {
 				// selecciona un patrón como aleatorio
-				numPat = i;
+				numPat = (int) ((Math.random() * numPatrones) - 0.001);
 				// calcula la salida de la red en turno (presente) y el error
 				// para éste patrón
 				calcRed();
@@ -166,8 +159,6 @@ public class LoginTrainingScaleGray {
 	}
 
 	public static void inicioDatos() {
-		System.out.println("initializando datos");
-
 		for (int j = 0; j < numPatrones; j++) {
 			for (int i = 0; i < 10001; i++) {
 				if (i == 10000) {
@@ -185,7 +176,6 @@ public class LoginTrainingScaleGray {
 						String.valueOf(i + 1));
 				String aux = con.registro_busqueda.substring(0,
 						con.registro_busqueda.length() - 1);
-				System.out.println(aux);
 				salida = Integer.parseInt(aux);
 				entrenaSalidas[i] = salida;
 			}else{
